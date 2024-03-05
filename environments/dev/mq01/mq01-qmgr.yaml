@@ -78,8 +78,8 @@ spec:
             - name: MQ_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mq01-admin-password
-                  key: mq01-admin-password
+                  name: dev-admin-password
+                  key: dev-admin-password
   terminationGracePeriodSeconds: 30
   tracing:
     agent: {}

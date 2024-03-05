@@ -14,7 +14,7 @@ spec:
   project: default
   source:
     path: environments/dev/mq01/
-    repoURL: https://github.com/$GITORG/mq01-ops.git
+    repoURL: https://github.com/jborg-barbesatibm/mq01-ops.git
     targetRevision: main
     directory:
       recurse: true

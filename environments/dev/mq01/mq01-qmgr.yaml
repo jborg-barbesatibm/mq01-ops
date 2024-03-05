@@ -17,7 +17,7 @@ spec:
             - tls.crt
   queueManager:
     debug: false
-    image: image-registry.openshift-image-registry.svc:5000/mq01-ci/mq01:3
+    image: image-registry.openshift-image-registry.svc:5000/mq01-ci/mq01:4
     imagePullPolicy: Always
     livenessProbe:
       failureThreshold: 1
@@ -79,7 +79,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: mq01-admin-password
-                  key: admin-password
+                  key: mq01-admin-password
   terminationGracePeriodSeconds: 30
   tracing:
     agent: {}

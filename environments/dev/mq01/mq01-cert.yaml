@@ -5,18 +5,18 @@ metadata:
   namespace: mq01-dev
 spec:
   dnsNames:
-    - dummy.domain.com
+    - jbdummy.domain.com
   secretName: mq01-qmgr-cert
   issuerRef:
     name: mq-selfsigned-issuer
-  duration: 2560h0m0s # 90d+
-  renewBefore: 300h0m0s # 12,5
+  duration: 1992h0m0s # 83 days
+  renewBefore: 300h0m0s # 12,5 days
   subject:
     organizations:
       - mq-org
 # The use of the common name field has been deprecated since 2000 and is
 # discouraged from being used.
-  commonName: dummy.domain.com
+  commonName: jbdummy.domain.com
   privateKey:
     algorithm: RSA
     encoding: PKCS1

@@ -10,7 +10,7 @@ spec:
   issuerRef:
     name: mq-selfsigned-issuer
   duration: 2560h0m0s # 90d+
-  renewBefore: 360h0m0s # 15d
+  renewBefore: 300h0m0s # 12,5
   subject:
     organizations:
       - mq-org

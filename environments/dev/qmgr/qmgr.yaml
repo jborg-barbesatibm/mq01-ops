@@ -1,0 +1,92 @@
+# for now just use the image that we have for mq01
+apiVersion: mq.ibm.com/v1beta1
+kind: QueueManager
+metadata:
+  name: _qm_
+spec:
+  license:
+    accept: true
+    license: L-APIG-CAUEQC
+    use: Development
+  pki:
+    keys:
+      - name: _qm_cert
+        secret:
+          secretName: _qm_-qmgr-cert
+          items:
+            - tls.key
+            - tls.crt
+  queueManager:
+    debug: false
+    image: image-registry.openshift-image-registry.svc:5000/mq01-ci/mq01:15
+    imagePullPolicy: Always
+    livenessProbe:
+      failureThreshold: 1
+      initialDelaySeconds: 90
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    logFormat: Basic
+    metrics:
+      enabled: true
+    name: _QM_
+    mqsc:
+      - configMap:
+          name: _qm_-mqsc
+          items:
+            - _qm_.mqsc
+    ini:
+      - configMap:
+          name: _qm_-ini
+          items:
+            - qm_.ini
+    readinessProbe:
+      failureThreshold: 1
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 3
+    resources:
+      limits:
+        cpu: "300m"
+        memory: 1Gi
+      requests:
+        cpu: "50m"
+        memory: 1Gi
+    availability:
+      type: SingleInstance
+    storage:
+      defaultClass: ibmc-vpc-block-metro-retain-10iops-tier
+      queueManager:
+        type: persistent-claim
+      persistedData:
+        enabled: true
+      recoveryLogs:
+        enabled: true
+  securityContext:
+    initVolumeAsRoot: false
+  template:
+    pod:
+      containers:
+        - name: qmgr
+          env:
+            - name: MQSNOAUT
+              value: "yes"
+            - name: MQ_DEV
+              value: "true"
+            - name: MQ_CONNAUTH_USE_HTP
+              value: "true"
+            - name: MQ_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: _qm_-admin-password
+                  key: admin-password
+  terminationGracePeriodSeconds: 30
+  tracing:
+    agent: {}
+    collector: {}
+    enabled: false
+    namespace: ""
+  version: 9.3.2.0-r1
+  web:
+    enabled: true

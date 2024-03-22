@@ -1,0 +1,41 @@
+# The changes made in DEV
+resources:
+- ./qmgr.yaml
+- ./mqsc.yaml
+
+patches:
+- path: ./qm.yaml
+- target:
+    group: mq.ibm.com
+    kind: QueueManager
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: dqm01
+    - op: replace
+      path: /spec/keys/name
+      value: dqm01cert
+    - op: replace
+      path: /spec/keys/secret/secretName
+      value: dqm01-qmgr-cert
+    - op: replace
+      path: /spec/queueManager/name
+      value: DQM01
+    - op: replace
+      path: /spec/queueManager/mqsc/configMap/name
+      value: dqm01-mqsc
+    - op: replace
+      path: /spec/queueManager/mqsc/configMap/items
+      value: dqm01.mqsc
+    - op: replace
+      path: /spec/queueManager/ini/configMap/name
+      value: dqm01-ini
+    - op: replace
+      path: /spec/queueManager/ini/configMap/items
+      value: dqm01.ini
+    - op: replace
+      path: /spec/template/pod/containers/env/
+      value: dqm01cert
+
+patchesStrategicMerge:
+  - qmgr_overlay.yaml
